@@ -14,3 +14,11 @@ Judge 4: 8.5
 Judge 5: 9
 Your Olympic score is 8.0
 """
+
+j1 = int(input("Judge 1: "))
+j2 = int(input("Judge 2: "))
+j3 = int(input("Judge 3: "))
+j4 = int(input("Judge 4: "))
+j5 = int(input("Judge 5: "))
+
+print("Your Olympic score is " + str((j1+j2+j3+j4+j5)/5))
