@@ -34,20 +34,56 @@ Algorithm (Leaderboard):
 8) Display who is the least similar to the inputed person and by how few
 
 Test Cases:
-Steven Zhang
-1
 
-Steven Zhang
-2
+    Input:
+    Steven Zhang
+    1
 
-Steven Zhang 
-3
+    Expected Output:
+    Person: Jayden Wong | Similarity Count: 4
 
-SteVen ZhAng!!?
-1
+    Input:
+    Steven Zhang
+    2
 
-Even Chen
-1
+    Expected Output:
+    Person: Ashar Siddiqui | Similarity Count: 0
+
+    Input:
+    Steven Zhang
+    3
+    1
+
+    Expected Output:
+    1) Jayden Wong 4 
+    ...
+    26) Erisha Rahman 0
+
+    Input:
+    Steven Zhang
+    3
+    2
+
+    Expected Output:
+    1) Ashar Siddiqui 0
+    ...
+    26) Daichi Lee 4
+
+
+    Input:
+    SteVen ZhAng!!!
+    1
+
+    Expected Output:
+    Person: Jayden Wong | Similarity Count: 4
+
+    Input:
+    Even Chen
+    1
+
+    Expected Output:
+    Sorry, could not find that person. Please check your spelling and try again.
+    
 """
 
 # Opens csv File and converts to list (more easily indexable)
@@ -66,15 +102,15 @@ def mostLeastFinder(config):
 
     # Iterates through the list of people's data
     for i in range(len(file)):
+        # Skips self (entered user)
+        if file[i][1].lower().strip(" .?!") == person.lower():
+            continue
         # Declares a variable, set to 0 for each person
         similarities = 0
         # Iterates through each element of the person 
         for k in range(len(file[i])):
             # Skips ID and Name elements
             if k == 0 or k == 1:
-                continue
-            # Skips self (entered user)
-            if file[i][1].lower().strip(" .?!") == person.lower():
                 continue
             # If elements are the same, increase similarities by 1
             if file[i][k].lower().strip(" .!?") == personLine[k].lower().strip(" .?!"):
@@ -105,15 +141,15 @@ def leaderboardFinder(sortOrder):
 
     # Iterates through the list of people's data
     for i in range(len(file)):
+        # Skips self (entered user)
+        if file[i][1].lower().strip(" .?!") == person.lower():
+            continue
         # Declares a variable, set to 0 for each person
         similarities = 0
         # Iterates through each element of the person 
         for k in range(len(file[i])):
             # Skips ID and Name elements
             if k == 0 or k == 1:
-                continue
-            # Skips self (entered user)
-            if file[i][1].lower().strip(" .?!") == person.lower():
                 continue
             # If elements are the same, increase similarities by 1
             if file[i][k].lower().strip(" .!?") == personLine[k].lower().strip(" .?!"):
@@ -144,7 +180,10 @@ formatted = False
 while True:
     # User Instructions
     print("Similarity Leaderboard and Finder")
+    print("----------------------------------")
     print("Enter an person and find out who are the most or least similar to that person!")
+    print("They may be several people that have share the first or last place; only one will be displayed.")
+    print("If you would like to see everyone, choose the leaderboard option instead.")
 
     # User Input Requests
     person = input("Name: ").strip(".!? ")
@@ -169,7 +208,7 @@ while True:
 
     # Checks person's list for changes, if no changes were made, the person was not found
     if personLine == []:
-        print("\nSorry, could not find that person. Please check your spelling and try again.")
+        print("\nSorry, could not find that person. Please check your spelling and try again.\n")
         continue
 
     # Calls correct function with set configuration based on user inputs
