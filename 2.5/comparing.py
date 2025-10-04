@@ -55,9 +55,10 @@ file = list(open("2.4/responses.csv"))
 # Removes first line/element (Legend)
 junk = file.pop(0)
 
-
-def mostLeastFinder(personName, personData, most):
-    if most:
+# Function for displaying most or least similar person
+def mostLeastFinder(config):
+    # Declare vertex similarity depending on user configuration
+    if config:
         vertexSimilarity = 0
     else:
         vertexSimilarity = 999
@@ -78,7 +79,8 @@ def mostLeastFinder(personName, personData, most):
             # If elements are the same, increase similarities by 1
             if file[i][k].lower().strip(" .!?") == personLine[k].lower().strip(" .?!"):
                 similarities += 1
-        if most:
+        # Compare similarity value with vertex similarity (max/min) and changes variables when conditions are met
+        if config:
             if similarities > vertexSimilarity:
                 vertexSimilarity = similarities
                 similarityPerson = file[i][1]
@@ -87,15 +89,17 @@ def mostLeastFinder(personName, personData, most):
                 vertexSimilarity = similarities
                 similarityPerson = file[i][1]
 
-    # Formats display text according to sorted order
-    if most:
+    # Formats display text according to user configuration
+    if config:
         print("Most similiar")
     else:
         print("Least similiar")
     
+    # Display information
     print("Person: " + similarityPerson + " | Similarity Count: " + str(vertexSimilarity))
 
-def leaderboardFinder(personName, personData):
+# Function for displaying similarity leaderboard in order according to user
+def leaderboardFinder(sortOrder):
     # Delcares empty leaderboard variable
     leaderboard = []
 
@@ -120,10 +124,10 @@ def leaderboardFinder(personName, personData):
 
     # Source for sorting nested list -> https://stackoverflow.com/questions/65679123/sort-nested-list-data-in-python
     # Sorts the nested list leaderboard according to the variable order, fullfilling the users request for how the data should be ordered
-    leaderboard = sorted(leaderboard, key=lambda x: x[1], reverse=order)
+    leaderboard = sorted(leaderboard, key=lambda x: x[1], reverse=sortOrder)
 
     # Formats display text according to sorted order
-    if order:
+    if sortOrder:
         print("Increasing Order")
     else:
         print("Decreasing Order")
@@ -135,6 +139,7 @@ def leaderboardFinder(personName, personData):
     for i in range(len(leaderboard)):
         print(str(i+1) + ") " + leaderboard[i][0] + " " + str(leaderboard[i][1]))
 
+# Prevent errors on double formatting
 formatted = False
 while True:
     # User Instructions
@@ -147,18 +152,19 @@ while True:
     if option == 3:
         order = int(input("1) Most to Least\n2) Least to Most\nEnter which one (1/2): "))
 
-    # Find the inputed person and formats list (.split(","); Completing conversion from csv file to List)
-    # Declare empty list for inputed person; useful to determine if the person has been found
+    # Declare empty list for inputed person; will be used to determine if the person has been found
     personLine = []
 
     # Iterate through each line of the list and properly convert data to nested lists 
     for i in range(len(file)):
+        # Prevent errors on double formatting; checks if list is already properly formatted
         if not formatted:
             file[i] = file[i].split(",")
         # Checks if line belongs to entered person
         if file[i][1].lower().strip(" .?!") == person.lower():
             # Sets empty list to entered person's data; shows person has been found
             personLine = file[i]
+    # List has been formatted
     formatted = True
 
     # Checks person's list for changes, if no changes were made, the person was not found
@@ -166,16 +172,16 @@ while True:
         print("\nSorry, could not find that person. Please check your spelling and try again.")
         continue
 
+    # Calls correct function with set configuration based on user inputs
     if option == 1:
-        mostLeastFinder(person, personLine, True)
+        mostLeastFinder(True)
     elif option == 2:
-        mostLeastFinder(person, personLine, False)
+        mostLeastFinder(False)
     else:
         if order == 1:
-            order = True
+            leaderboardFinder(True)
         else:
-            order = False
-        leaderboardFinder(person, personLine)
-        
+            leaderboardFinder(False)
+    
     break
 
