@@ -11,7 +11,7 @@ Test as you go! Describe in your comments what steps you took to test your code.
 Idea:
 Similarity Leaderboard and Finder
 Requests the user to input a name and choose whether to output a leaderboard of similarity 
-values or whom is most/least similar to that person
+values or who is most/least similar to that person
 
 Algorithm (Most/Least Similar Person):
 1) Declare variables, convert file to List (More easily indexable)
@@ -92,7 +92,7 @@ file = list(open("2.4/responses.csv"))
 junk = file.pop(0)
 
 # Function for displaying most or least similar person
-def mostLeastFinder(config):
+def mostLeastFinder(comparePerson, compareLine, config):
     # Declare vertex similarity depending on user configuration
     if config:
         vertexSimilarity = 0
@@ -103,7 +103,7 @@ def mostLeastFinder(config):
     # Iterates through the list of people's data
     for i in range(len(file)):
         # Skips self (entered user)
-        if file[i][1].lower().strip(" .?!") == person.lower():
+        if file[i][1].lower().strip(" .?!") == comparePerson:
             continue
         # Declares a variable, set to 0 for each person
         similarities = 0
@@ -113,7 +113,7 @@ def mostLeastFinder(config):
             if k == 0 or k == 1:
                 continue
             # If elements are the same, increase similarities by 1
-            if file[i][k].lower().strip(" .!?") == personLine[k].lower().strip(" .?!"):
+            if file[i][k].lower().strip(" .!?") == compareLine[k].lower().strip(" .?!"):
                 similarities += 1
         # Compare similarity value with vertex similarity (max/min) and changes variables when conditions are met
         if config:
@@ -135,14 +135,14 @@ def mostLeastFinder(config):
     print("Person: " + similarityPerson + " | Similarity Count: " + str(vertexSimilarity))
 
 # Function for displaying similarity leaderboard in order according to user
-def leaderboardFinder(sortOrder):
+def leaderboardFinder(comparePerson, compareLine, sortOrder):
     # Delcares empty leaderboard variable
     leaderboard = []
 
     # Iterates through the list of people's data
     for i in range(len(file)):
         # Skips self (entered user)
-        if file[i][1].lower().strip(" .?!") == person.lower():
+        if file[i][1].lower().strip(" .?!") == comparePerson:
             continue
         # Declares a variable, set to 0 for each person
         similarities = 0
@@ -152,7 +152,7 @@ def leaderboardFinder(sortOrder):
             if k == 0 or k == 1:
                 continue
             # If elements are the same, increase similarities by 1
-            if file[i][k].lower().strip(" .!?") == personLine[k].lower().strip(" .?!"):
+            if file[i][k].lower().strip(" .!?") == compareLine[k].lower().strip(" .?!"):
                 similarities += 1
         
         # Adds person's name and similaries to the entered person into the leader board (unsorted)
@@ -186,10 +186,22 @@ while True:
     print("If you would like to see everyone, choose the leaderboard option instead.")
 
     # User Input Requests
-    person = input("Name: ").strip(".!? ")
-    option = int(input("1) Most Similar\n2) Least Similar\n3) Leaderboard\nPlease enter a number (1/2/3): "))
+    person = input("Name: ").strip(".!? ").lower()
+    # User misinput safeguard
+    while True:
+        option = int(input("1) Most Similar\n2) Least Similar\n3) Leaderboard\nPlease enter a number (1/2/3): ").strip(" .?!"))
+        # Break out of loop if input is valid
+        if option >= 1 and option <= 3:
+            break
+        print("\nPlease enter a valid selection (1/2/3)\n")
     if option == 3:
-        order = int(input("1) Most to Least\n2) Least to Most\nEnter which one (1/2): "))
+        # User misinput safeguard
+        while True:
+            order = int(input("1) Most to Least\n2) Least to Most\nEnter which one (1/2): "))
+            # Break out of loop if input is valid
+            if order == 1 or order == 2:
+                break
+            print("\nPlease enter a valid selection (1/2)\n")
 
     # Declare empty list for inputed person; will be used to determine if the person has been found
     personLine = []
@@ -200,10 +212,9 @@ while True:
         if not formatted:
             file[i] = file[i].split(",")
         # Checks if line belongs to entered person
-        if file[i][1].lower().strip(" .?!") == person.lower():
+        if file[i][1].lower().strip(" .?!") == person:
             # Sets empty list to entered person's data; shows person has been found
             personLine = file[i]
-    # List has been formatted
     formatted = True
 
     # Checks person's list for changes, if no changes were made, the person was not found
@@ -213,14 +224,13 @@ while True:
 
     # Calls correct function with set configuration based on user inputs
     if option == 1:
-        mostLeastFinder(True)
+        mostLeastFinder(person, personLine, True)
     elif option == 2:
-        mostLeastFinder(False)
+        mostLeastFinder(person, personLine, False)
     else:
         if order == 1:
-            leaderboardFinder(True)
+            leaderboardFinder(person, personLine, True)
         else:
-            leaderboardFinder(False)
-    
+            leaderboardFinder(person, personLine, False)
     break
 
