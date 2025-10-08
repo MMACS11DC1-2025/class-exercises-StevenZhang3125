@@ -186,7 +186,7 @@ while True:
     print("If you would like to see everyone, choose the leaderboard option instead.")
 
     # User Input Requests
-    person = input("Name: ").strip(".!? ").lower()
+    person = input("Name (First Last): ").strip(".!? ").lower()
     # User misinput safeguard
     while True:
         option = int(input("1) Most Similar\n2) Least Similar\n3) Leaderboard\nPlease enter a number (1/2/3): ").strip(" .?!"))
@@ -233,4 +233,3 @@ while True:
         else:
             leaderboardFinder(person, personLine, False)
     break
-
