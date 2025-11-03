@@ -56,14 +56,16 @@ Configuration: Solid, Reds, Random
 Input: `solid`, `reds`, `random`
 
 Output: Red tone spiral staircase with random depth (76)  
-Screenshot: ![Example 1](assets/example-1.png)
+Screenshot:  
+![Example 1](assets/example-1.png)
 
 ### Example 2
 Configuration: Outline, Rainbow, Custom: 75  
 Input: `outline`, `rainbow`, `custom`, `75`
 
 Output: Rainbow spiral staircase/wireframe with depth of 75  
-Screenshot: ![Example 2](assets/example-2.png)
+Screenshot:  
+![Example 2](assets/example-2.png)
 
 ## **Test Cases**
 ### Test 1: Random count
