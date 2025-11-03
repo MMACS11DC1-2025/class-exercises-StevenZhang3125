@@ -2,9 +2,9 @@ import turtle
 import random
 
 # Recursive spiral squares drawing function
-def drawSquare(turtle, size, colour, colourIndex, fill, target, current):
+def drawSquare(turtle, size, colour, colourIndex, fill, remaining):
     # Base case/Terminating case
-    if target == current:
+    if remaining == 0:
         return 0
     
     # Return to first colour in range if index is at the end (loop)
@@ -32,11 +32,11 @@ def drawSquare(turtle, size, colour, colourIndex, fill, target, current):
     if fill:
         turtle.end_fill()
     
-    # Rotate turtle 5 degrees left to create spiralling staricase effect 
+    # Rotate turtle 5 degrees left to create spiralling staircase effect 
     turtle.left(5)
 
     # Calls itself for the next square and returns itself + 1 for counting the total squares drawn
-    return drawSquare(turtle, size*0.99, colour, colourIndex+1, fill, target, current+1) + 1
+    return drawSquare(turtle, size*0.99, colour, colourIndex+1, fill, remaining-1) + 1
 
 # Dictionary of colour ranges
 colours = {
@@ -57,7 +57,7 @@ comments = {
 pointer = turtle.Turtle()
 
 # User draw mode selection
-# While loop used to allow user reinputs if inital input is invalid
+# While loop used to allow user reinputs if initial input is invalid
 while True:
     print("\nPlease select a draw mode")
     print("-------------------------")
@@ -76,7 +76,7 @@ while True:
     break
 
 # User colour range selection
-# While loop used to allow user reinputs if inital input is invalid
+# While loop used to allow user reinputs if initial input is invalid
 while True:
     print("\nPlease select a colour range")
     print("------------------------------")
@@ -92,21 +92,26 @@ while True:
 guess = False
 
 # User square count method selection
-# While loop used to allow user reinputs if inital input is invalid
+# While loop used to allow user reinputs if initial input is invalid
 while True:
     print("\nHow many square would you like to be drawn?")
     print("---------------------------------------------")
-    mode = int(input("\n1) Random\n2) Random and Guess how many\n3) Custom\nSelect a mode: "))
+    mode = input("\nRandom\nRandom and Guess how many\nCustom\nSelect a mode: ").strip(" .!?").lower()
 
-    # Translates mode selection into respective configureation
-    if mode == 1:
-        count = random.randint(10, 100)
-    elif  mode == 2:
+    # Translates mode selection into respective configuration
+    if mode == "random":
+        count = random.randint(10, 250)  # Min at 10, any less would be boring, Max at 250, any more would be too small
+    elif  mode == "random and guess how many":
         guess = True
-        guessCount = -1     # Set to -1 becuase while loop adds 1 on first run before the user has guessed
-        count = random.randint(10, 100)
-    elif mode == 3:
-        count = int(input("Enter the number of sqaures you would like to be drawn: "))
+        guessCount = 0     # How many guesses has been taken
+        count = random.randint(10, 250) # Min at 10, any less would be too obvious to guess; Max at 250, any more would be too many
+    elif mode == "custom":
+        while True:
+            count = int(input("Enter the number of squares you would like to be drawn (1 - 250): ").strip(" .!?")) # Max at 250, any more would be too small
+            if count < 1 or count > 250:
+                print("Please enter a number between 1 and 250 (inclusive)")
+                continue
+            break
 
     # Invalid user input handler
     else:
@@ -115,14 +120,14 @@ while True:
     break
 
 # Run recurive function with user determined configuration
-squares = drawSquare(pointer, 200, colour, 0, fill, count, 0)
+squares = drawSquare(pointer, 200, colour, 0, fill, count)
 
 # Runs if square count method is set to 2/Random and Guess how many 
 if guess:
     print("Without counting, how many squares do you think there are?")
     while guess != squares:
         guessCount += 1
-        guess = int(input())
+        guess = int(input().strip(" .!?"))
 
         # Hints for the user relative to their guess
         if guess > squares:
@@ -130,10 +135,10 @@ if guess:
         if guess < squares:
             print("Guess higher, try again.")
     # Displays correct answer and how many guesses it took
-    print("Correct! There are " + str(squares) + " squared drawn.")
-    print("It took you " + str(guessCount) + " amount of tries.")
+    print("Correct! There are " + str(squares) + " squares drawn.")
+    print("It took you " + str(guessCount) + " tries.")
 
-    # Displays a dynamic random comment based on preformance of guesses took
+    # Displays a dynamic random comment based on performance of guesses taken
     if guessCount <= 3:
         print(random.choice(comments["good"]))
     elif guessCount <= 6:
