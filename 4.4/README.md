@@ -42,9 +42,9 @@ Input Greens, for a colour range of Greens
 Input Blues, for a colour range of Blues  
 Input Rainbow, for a rainbow
 ### Square Count/Stair Depth
-Input 1, for a random depth, displays depth after drawing  
-Input 2, for a random depth then guess how many  
-Input 3, for a custom depth (1-250)
+Input Random, for a random depth, displays depth after drawing  
+Input Random and Guess, for a random depth then guess how many  
+Input Custom, for a custom depth (1-250)
 
 ### Guess (If selected)
 Input a number (without counting) and get a hint (higher or lower)  
@@ -53,14 +53,14 @@ Input correct number and receive comment dynamic to performance
 ## **Showcases**
 ### Example 1
 Configuration: Solid, Reds, Random  
-Input: `solid`, `reds`, `1`
+Input: `solid`, `reds`, `random`
 
-Output: Red tone spiral staircase with random depth (49)  
+Output: Red tone spiral staircase with random depth (76)  
 Screenshot: ![Example 1](assets/example-1.png)
 
 ### Example 2
 Configuration: Outline, Rainbow, Custom: 75  
-Input: `outline`, `rainbow`, `3`, `75`
+Input: `outline`, `rainbow`, `custom`, `75`
 
 Output: Rainbow spiral staircase/wireframe with depth of 75  
 Screenshot: ![Example 2](assets/example-2.png)
