@@ -94,7 +94,7 @@ guess = False
 # User square count method selection
 # While loop used to allow user reinputs if initial input is invalid
 while True:
-    print("\nHow many square would you like to be drawn?")
+    print("\nHow many squares would you like to be drawn?")
     print("---------------------------------------------")
     mode = input("\nRandom\nRandom and Guess how many\nCustom\nSelect a mode: ").strip(" .!?").lower()
 
@@ -115,7 +115,7 @@ while True:
 
     # Invalid user input handler
     else:
-        print("Please type either 1, 2, or 3")
+        print("Please type either Random, Random and guess how many, or Custom")
         continue
     break
 
