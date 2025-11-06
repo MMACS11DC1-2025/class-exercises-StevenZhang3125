@@ -27,7 +27,7 @@ responding with a comment relative to user preformance once correct number is gu
 - **Custom:** User inputs how many square they want drawn (1-250)
 
 ## **Usage**
-*Note: user inputs have leeway (punctuation, capitalization); unidentifiable inputs allow retries; mismatched variable class causes error*
+*Note: user inputs have leeway (punctuation, capitalization); unidentifiable inputs/variable mistmatches allow retries*
 
 ### How to Run
 - Copy and paste code into Trinket compiler (https://trinket.io/turtle) or any other compatible turtle compiler
@@ -118,11 +118,15 @@ Anywhere between 30-120 squares is reasonable as it conveys a visually interesti
 - Result: Recursion now terminates after exact number of squares
 ### **Testing and Validation**
 - Verified every combination of prompts and logical responses
-- Verified user input error handling (except variable type mismatch errors)
+- Verified user input error handling
 
 ## **Peer Review**
-Reviewer: Karson Lum  
-Feedback: Confusing instructions for square count selection; Went from word input to number input  
-Changes based on feedback: Made selection for square count method expect string responces
+**Reviewer**: Karson Lum  
+**Feedback**: Confusing instructions for square count selection; Went from word input to number input  
+**Changes based on feedback**: Made selection for square count method expect string responces
+
+**Reviewer**: Ethan Wong  
+**Feedback**: Outdated instructions; lack of variable mismatch error handling  
+**Changes based on feedback**: Updated instuctions to new expectations; added `try`, `expect` clauses
 
 *Used as markdown format reference https://markdownguide.offshoot.io/basic-syntax/*

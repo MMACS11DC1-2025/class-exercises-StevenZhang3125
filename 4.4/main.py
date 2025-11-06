@@ -107,7 +107,13 @@ while True:
         count = random.randint(10, 250) # Min at 10, any less would be too obvious to guess; Max at 250, any more would be too many
     elif mode == "custom":
         while True:
-            count = int(input("Enter the number of squares you would like to be drawn (1 - 250): ").strip(" .!?")) # Max at 250, any more would be too small
+            count = input("Enter the number of squares you would like to be drawn (1 - 250): ").strip(" .!?") # Max at 250, any more would be too small
+            # Error handling for variable mismatches
+            try:
+                count = int(count)
+            except:
+                print("Please enter a number between 1 and 250 (inclusive)")
+            # Error handling for out of range number input
             if count < 1 or count > 250:
                 print("Please enter a number between 1 and 250 (inclusive)")
                 continue
@@ -127,7 +133,15 @@ if guess:
     print("Without counting, how many squares do you think there are?")
     while guess != squares:
         guessCount += 1
-        guess = int(input().strip(" .!?"))
+        # Error handling for variable mismatches
+        while True:
+            guess = input().strip(" .!?")
+            try:
+                guess = int(guess)
+            except:
+                print("Please enter a number between 1 and 250 (inclusive)")
+                continue
+            break
 
         # Hints for the user relative to their guess
         if guess > squares:
