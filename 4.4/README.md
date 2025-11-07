@@ -7,7 +7,8 @@ determined by user input.
 
 ## **Recursive Approach**
 The recursive function `drawSquare` calls itself, adds one, then returns the result. The
-terminating/base case triggers when the number of squares left to draw (`remaining`) reaches 0.
+terminating/base case triggers when the number of squares left to draw (`remaining`) reaches 0 or when the size 
+is less than or equal to 15 (Very small). Two base cases are present to prevent potential infinite loops and improves robustness.
 Each call draws one square, rotates 5 degrees left, scales the size by 0.99, advances to the next colour in the colour range, and
 decreases `remaining` by 1. The function returns the total count of recursive calls made (squares drawn).
 
@@ -127,6 +128,6 @@ Anywhere between 30-120 squares is reasonable as it conveys a visually interesti
 
 **Reviewer**: Ethan Wong  
 **Feedback**: Outdated instructions; lack of variable mismatch error handling  
-**Changes based on feedback**: Updated instuctions to new expectations; added `try`, `expect` clauses
+**Changes based on feedback**: Updated instuctions to new expectations; added `try`, `except` clauses
 
 *Used as markdown format reference https://markdownguide.offshoot.io/basic-syntax/*

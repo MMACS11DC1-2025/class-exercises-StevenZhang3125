@@ -6,6 +6,9 @@ def drawSquare(turtle, size, colour, colourIndex, fill, remaining):
     # Base case/Terminating case
     if remaining == 0:
         return 0
+    # Secondary base case in case remaining is set beyond 250 
+    if size <= 15:
+        return 0
     
     # Return to first colour in range if index is at the end (loop)
     if colourIndex == len(colours[colour]):
@@ -113,6 +116,7 @@ while True:
                 count = int(count)
             except:
                 print("Please enter a number between 1 and 250 (inclusive)")
+                continue
             # Error handling for out of range number input
             if count < 1 or count > 250:
                 print("Please enter a number between 1 and 250 (inclusive)")
