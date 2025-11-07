@@ -99,7 +99,7 @@ guess = False
 while True:
     print("\nHow many squares would you like to be drawn?")
     print("---------------------------------------------")
-    mode = input("\nRandom\nRandom and Guess how many\nCustom\nSelect a mode: ").strip(" .!?").lower()
+    mode = input("Random\nRandom and Guess how many\nCustom\nSelect a mode: ").strip(" .!?").lower()
 
     # Translates mode selection into respective configuration
     if mode == "random":
