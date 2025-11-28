@@ -7,4 +7,5 @@ for i in range(10):
         file = file.convert("RGB")
     except:
         continue
-    utils.colourInterest(file)
+    gray = utils.colourInterest(file)
+    blacklist = utils.otherColours(file, gray)
