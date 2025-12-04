@@ -1,8 +1,9 @@
 from PIL import Image
 import math
 
+# Find Gray colour
 def colourInterest(file):
-    grayScale = [] # Gray (Colour consistancy; Full white/black could affect data)
+    grayScale = [] # Gray (Colour consistancy)
     w = file.width
     h = file.height
     pixels = file.load()
@@ -24,6 +25,7 @@ def colourInterest(file):
     avgGray = sum(grayScale)//len(grayScale)
     return avgGray
 
+# Find other colours (cars, medians); rturn 
 def otherColours(file, avgGray):
     blacklistRaw = []
     blacklist = []
@@ -44,11 +46,14 @@ def otherColours(file, avgGray):
             if not isGray:
                 blacklistRaw.append(bfs(file, (col, row), (r, g, b)))
                 for i in range(len(blacklistRaw)):
-                    minX, maxX = nestedMinMaxFinder(blacklistRaw[i], 0)
-                    minY, maxY = nestedMinMaxFinder(blacklistRaw[i], 1)
+                    minXArray, maxXArray = nestedMinMaxFinder(blacklistRaw[i], 0)
+                    minX, maxX = minXArray[0], maxXArray[1]
+                    minYArray, maxYArray = nestedMinMaxFinder(blacklistRaw[i], 1)
+                    minY, maxY = minYArray[0], maxYArray[1]
                     blacklist.append((minX, maxX, minY, maxY))
     return blacklist
-        
+    
+# Breadth First Search to find clumps of colours
 def bfs(file, start, colours):
     visited = []
     queue = [start]
@@ -81,12 +86,17 @@ def bfs(file, start, colours):
                 queue.append((col, row+1))
     return visited
 
+# Find min and max values in a nested array; returns the array with the desired value
 def nestedMinMaxFinder(array, index):
     minVal = math.inf
+    minArray = []
     maxVal = -math.inf
+    maxArray = []
     for i in range(len(array)):
         if array[i][index] < minVal:
             minVal = array[i][index]
+            minArray = array[i]
         if array[i][index] > maxVal:
             maxVal = array[i][index]
-    return minVal, maxVal
+            maxArray = array[i]
+    return minArray, maxArray
