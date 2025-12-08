@@ -25,7 +25,7 @@ def colourInterest(file):
     avgGray = sum(grayScale)//len(grayScale)
     return avgGray
 
-# Find other colours (cars, medians); rturn 
+# Find other colours (cars, medians); return 
 def otherColours(file, avgGray):
     blacklistRaw = []
     blacklist = []
@@ -52,7 +52,31 @@ def otherColours(file, avgGray):
                     minY, maxY = minYArray[0], maxYArray[1]
                     blacklist.append((minX, maxX, minY, maxY))
     return blacklist
-    
+
+# Find white lines
+def whiteLines(file):
+    whiteLinesRaw = []
+    w = file.width
+    h = file.height
+    pixels = file.load()
+    stepW = w//250
+    stepH = h//250
+    if stepW == 0:
+        stepW = 1
+    if stepH == 0:
+        stepH = 1
+    for col in range(0, w, stepW):
+        for row in range(0, h, stepH):
+            r, g, b = pixels[col,row]
+            avgRange = (215, 255)
+            isWhite = avgRange[0] < r and r < avgRange[1] and avgRange[0] < g and g < avgRange[1] and avgRange[0] < b and b < avgRange[1]
+            if isWhite:
+                whiteLinesRaw.append(bfs(file, (col, row), (r, g, b)))
+    return whiteLinesRaw
+
+def whiteLinePartitioner(whiteLinesRaw):
+    return
+
 # Breadth First Search to find clumps of colours
 def bfs(file, start, colours):
     visited = []
