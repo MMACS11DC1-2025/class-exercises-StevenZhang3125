@@ -45,16 +45,16 @@ def otherColours(file, avgGray):
             isGray = avgRange[0] < r and r < avgRange[1] and avgRange[0] < g and g < avgRange[1] and avgRange[0] < b and b < avgRange[1]
             if not isGray:
                 blacklistRaw.append(bfs(file, (col, row), (r, g, b)))
-                for i in range(len(blacklistRaw)):
-                    minXArray, maxXArray = nestedMinMaxFinder(blacklistRaw[i], 0)
-                    minX, maxX = minXArray[0], maxXArray[1]
-                    minYArray, maxYArray = nestedMinMaxFinder(blacklistRaw[i], 1)
-                    minY, maxY = minYArray[0], maxYArray[1]
-                    blacklist.append((minX, maxX, minY, maxY))
-    return blacklist
+    for i in range(len(blacklistRaw)):
+        minXArray, maxXArray = nestedMinMaxFinder(blacklistRaw[i], 0)
+        minX, maxX = minXArray[0], maxXArray[1]
+        minYArray, maxYArray = nestedMinMaxFinder(blacklistRaw[i], 1)
+        minY, maxY = minYArray[0], maxYArray[1]
+        blacklist.append((minX, maxX, minY, maxY))
+    return blacklistRaw
 
 # Find white lines
-def whiteLinesFinder(file, start):
+def whiteLinesFinder(file, start, blacklist):
     whiteLinesRaw = []
     allVisited = []
     w = file.width
@@ -69,21 +69,23 @@ def whiteLinesFinder(file, start):
     for col in range(start[0], w, stepW):
         for row in range(start[1], h, stepH):
             r, g, b = pixels[col,row]
-            avgRange = (215, 255)
+            avgRange = (190, 255)
             isWhite = avgRange[0] < r and r < avgRange[1] and avgRange[0] < g and g < avgRange[1] and avgRange[0] < b and b < avgRange[1]
             if isWhite:
                 if (col, row) not in allVisited:
+                    if (col, row) in blacklist:
+                        continue
                     visited = bfs(file, (col, row), "white")
                     allVisited += visited
                     whiteLinesRaw.append(visited)
     if not allVisited:
-        return whiteLinesFinder(file, (stepW//2, stepH//2))
+        return whiteLinesFinder(file, (stepW//2, stepH//2), blacklist)
     return whiteLinePartitioner(whiteLinesRaw)
 
 def whiteLinePartitioner(whiteLinesRaw):
     whiteLines = []
     # Implement partitioning logic here
-    return
+    return whiteLinesRaw
 
 # Breadth First Search to find clumps of colours
 def bfs(file, start, colours):
@@ -92,33 +94,33 @@ def bfs(file, start, colours):
     w = file.width
     h = file.height
     pixels = file.load()
+    # import pdb; pdb.set_trace()
     while queue:
         col, row = queue.pop(0)
         if (col, row) in visited:
             continue
         visited.append((col, row))
         r, g, b = pixels[col, row]
-        try:
-            if colours == "white":
-                colourRange = [(215, 255), (215, 255), (215, 255)]
-        except:
+        if colours == "white":
+            colourRange = [(190, 255), (190, 255), (190, 255)]
+        else:
             colourRange = [(colours[0]-10, colours[0]+10), (colours[1]-10, colours[1]+10), (colours[2]-10, colours[2]+10)]
         inRange = colourRange[0][0] < r and r < colourRange[0][1] and colourRange[1][0] < g and g < colourRange[1][1] and colourRange[2][0] < b and b < colourRange[2][1]
         # Left
         if col != 0:
-            if inRange:
+            if inRange and not (col-1, row) in visited:
                 queue.append((col-1, row))
         # Right
         if col != w-1:
-            if inRange:
+            if inRange and not (col+1, row) in visited:
                 queue.append((col+1, row))
         # Up
         if row != 0:
-            if inRange:
+            if inRange and not (col, row-1) in visited:
                 queue.append((col, row-1))
         # Down
         if row != h-1:
-            if inRange:
+            if inRange and not (col, row+1) in visited:
                 queue.append((col, row+1))
     return visited
 
