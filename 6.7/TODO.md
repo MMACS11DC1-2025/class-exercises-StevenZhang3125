@@ -3,7 +3,7 @@
 [x] Search: 250 x 250.  
 [ ] Use Breadth First Search to search whole branch.  
 [ ] Colour tolerance: 215 - 255 (avg).  
-[ ] Branch distance tolerance: 3 pixels.  
+<!-- [ ] Branch distance tolerance: 3 pixels.   -->
 ## Find Spots
 [ ] Parition white lines into segments.
 - [ ] Find all ends and interception points

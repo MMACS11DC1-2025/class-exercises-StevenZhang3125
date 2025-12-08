@@ -54,8 +54,9 @@ def otherColours(file, avgGray):
     return blacklist
 
 # Find white lines
-def whiteLines(file):
+def whiteLinesFinder(file, start):
     whiteLinesRaw = []
+    allVisited = []
     w = file.width
     h = file.height
     pixels = file.load()
@@ -65,16 +66,23 @@ def whiteLines(file):
         stepW = 1
     if stepH == 0:
         stepH = 1
-    for col in range(0, w, stepW):
-        for row in range(0, h, stepH):
+    for col in range(start[0], w, stepW):
+        for row in range(start[1], h, stepH):
             r, g, b = pixels[col,row]
             avgRange = (215, 255)
             isWhite = avgRange[0] < r and r < avgRange[1] and avgRange[0] < g and g < avgRange[1] and avgRange[0] < b and b < avgRange[1]
             if isWhite:
-                whiteLinesRaw.append(bfs(file, (col, row), (r, g, b)))
-    return whiteLinesRaw
+                if (col, row) not in allVisited:
+                    visited = bfs(file, (col, row), "white")
+                    allVisited += visited
+                    whiteLinesRaw.append(visited)
+    if not allVisited:
+        return whiteLinesFinder(file, (stepW//2, stepH//2))
+    return whiteLinePartitioner(whiteLinesRaw)
 
 def whiteLinePartitioner(whiteLinesRaw):
+    whiteLines = []
+    # Implement partitioning logic here
     return
 
 # Breadth First Search to find clumps of colours
@@ -88,9 +96,13 @@ def bfs(file, start, colours):
         col, row = queue.pop(0)
         if (col, row) in visited:
             continue
-        visited.add((col, row))
+        visited.append((col, row))
         r, g, b = pixels[col, row]
-        colourRange = [(colours[0]-10, colours[0]+10), (colours[1]-10, colours[1]+10), (colours[2]-10, colours[2]+10)]
+        try:
+            if colours == "white":
+                colourRange = [(215, 255), (215, 255), (215, 255)]
+        except:
+            colourRange = [(colours[0]-10, colours[0]+10), (colours[1]-10, colours[1]+10), (colours[2]-10, colours[2]+10)]
         inRange = colourRange[0][0] < r and r < colourRange[0][1] and colourRange[1][0] < g and g < colourRange[1][1] and colourRange[2][0] < b and b < colourRange[2][1]
         # Left
         if col != 0:
