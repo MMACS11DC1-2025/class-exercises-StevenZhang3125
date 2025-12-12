@@ -36,8 +36,7 @@ print(f"\nTotal processing time for all images: {globalEnd - globalStart:.2f}s")
 while True:
     print("\n1) Rank average kWh images")
     print("2) Rank kWh consistency")
-    print("3) Find specific ranking")
-    print("4) Exit")
+    print("3) Exit")
     option = input("Selection: ").strip(" .!?")
     try:
         option = int(option)
@@ -54,8 +53,12 @@ while True:
         continue
     if option == 1:
         data = utils.nestedDatasetSelectionSort(imageData, 1)
+        orderMode = "Lowest to Highest"
         if order == 2:
             data = data[::-1]
+            orderMode = "Highest to Lowest"
+        data = data[0:5]
+        print(f"\nTop 5 Average kWh Rankings: ({orderMode})")
         for i in range(len(data)):
             img = data[i][0]
             avg = data[i][1]
@@ -66,8 +69,12 @@ while True:
             print(f"The consistency of the region's kWh is {consistency:.2f}%")
     elif option == 2:
         data = utils.nestedDatasetSelectionSort(imageData, 2)
+        orderMode = "Lowest to Highest"
         if order == 2:
             data = data[::-1]
+            orderMode = "Highest to Lowest"
+        data = data[0:5]
+        print(f"\nTop 5 Consistency Rankings: ({orderMode})")
         for i in range(len(data)):
             img = data[i][0]
             avg = data[i][1]
@@ -76,37 +83,5 @@ while True:
             print("-----------------------------------------------------------------")
             print(f"You'll average {(avg):.2f} kWh for the region in image {i}.")
             print(f"The consistency of the region's kWh is {consistency:.2f}%")
-    # elif option == 3:
-    #     while True:
-    #         print("1) Average kWh")
-    #         print("2) Consistency")
-    #         rankType = input("Selection: ").strip(" .!?")
-    #         try:
-    #             rankType = int(rankType)
-    #         except:
-    #             print("Please enter a number corresponding to the options.")
-    #             continue
-    #         if rankType != 1 and rankType != 2:
-    #             print("Please enter a valid option.")
-    #             continue
-    #         rank = input("Enter desired ranking: ").strip(" .!?")
-    #         try:
-    #             rank = int(rank)
-    #         except:
-    #             print("Please enter a valid ranking number.")
-    #             continue
-    #         if rank < 1 or rank > 10:
-    #             print("Ranking out of range.")
-    #             continue
-    #         break
-    #     data = utils.nestedDatasetSelectionSort(imageData, rankType)
-
-    #     img = data[rank-1][0]
-    #     avg = data[rank-1][1]
-    #     consistency = data[rank-1][2]
-    #     print(f"\nAverage kWh Ranking {rank}; Location {img}; Image {img}")
-    #     print("-----------------------------------------------------------------")
-    #     print(f"You'll average {(avg):.2f} kWh for the region in image {img}.")
-    #     print(f"The consistency of the region's kWh is {consistency:.2f}%")
-    elif option == 4:
+    elif option == 3:
         break
