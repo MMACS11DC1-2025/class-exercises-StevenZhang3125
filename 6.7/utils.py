@@ -60,13 +60,50 @@ isTargetFeature logic breakdown
 """
 
 # Check if a colour is apart of desired data (Not UI element; Apart of photovoltaic map)
-def is_target_feature(colour):
+def isTargetFeature(colour):
     r, g, b = colour
     avgColour = (r + g + b) / 3 # Obtain pixel's average colour value
     # Check if pixel colours are close to average (GrayScale)
     if abs(r - avgColour) < 10 and abs(g - avgColour) < 10 and abs(b - avgColour) < 10: 
         return False # It is grayscale (UI element), so it is NOT the target feature
     return True # It is NOT grayscale, so it IS the target feature
+
+"""
+boxBlur logic breakdown
+1. Create a copy of the original image to store the blurred result (prevents reading already-modified pixels)
+2. Load pixel data for both the source image and the new target image
+3. Iterate through the image pixels, skipping the 1-pixel border to ensure every pixel has 8 neighbors
+4. For each pixel, examine the 3x3 grid of pixels surrounding it (x-1 to x+1, y-1 to y+1)
+5. Sum the Red, Green, and Blue components of all 9 pixels in the grid
+6. Calculate the average RGB values by dividing the sums by 9
+7. Assign the new averaged RGB tuple to the corresponding pixel in the target image
+8. Return the processed image
+"""
+
+# Apply a 3x3 box blur to smooth image noise
+def boxBlur(file):
+    blurredFile = file.copy()      # Create copy for output
+    pixels = file.load()           # Read from original
+    newPixels = blurredFile.load() # Write to copy
+    w = file.width
+    h = file.height
+
+    # Iterate through pixels (excluding border)
+    for x in range(1, w - 1):
+        for y in range(1, h - 1):
+            rTotal, gTotal, bTotal = 0, 0, 0
+            # Iterate through 3x3 grid
+            for i in range(-1, 2):
+                for j in range(-1, 2):
+                    r, g, b = pixels[x + i, y + j]
+                    rTotal += r
+                    gTotal += g
+                    bTotal += b
+            
+            # Calculate average and set new pixel
+            newPixels[x, y] = (rTotal // 9, gTotal // 9, bTotal // 9)
+            
+    return blurredFile
 
 """
 colourToValue logic breakdown
@@ -89,7 +126,7 @@ def colourToValue(file):
     for r in range(h):
         for c in range(w):
             colour = pixels[c, r]               # Get pixel colour (tuple)
-            if is_target_feature(colour):       # Check if pixel is target feature (Not grayscale/UI element)
+            if isTargetFeature(colour):       # Check if pixel is target feature (Not grayscale/UI element)
                 value = getClosestValue(colour) # Get closest kWh value
                 values.append(value)            # Add kWh value to list
     return values

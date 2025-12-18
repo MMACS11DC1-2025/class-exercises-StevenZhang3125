@@ -23,6 +23,9 @@ for image in range(1, 11):
         file = file.convert("RGB")                         # Convert image to RGB format (Prevent RGBA/opacity issues)
     except:
         continue
+
+    file = utils.boxBlur(file)                                # Pre-process image with box blur to reduce noise
+
     startTime = time.time()                                   # Start timer for individual image processing
     imageValue = utils.colourToValue(file)                    # Convert image colours to kWh values
     avgkWh = (sum(imageValue) / len(imageValue))*kW           # Calculate average kWh based on kW input and image value
@@ -195,3 +198,8 @@ while True:
     # Exit program/loop
     if option == 5:
         break
+
+    # Handle invalid option input
+    else:
+        print("Please enter a number corresponding to the options.")
+        continue

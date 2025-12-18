@@ -1,4 +1,4 @@
-# Solar Energy Potential Analysis - Image Explorer
+# Solar Energy Potential Analysis
 
 ## Project Overview
 
@@ -34,7 +34,7 @@ This color-based detection method is accurate because:
 
 ### Unit Testing
 - `getClosestValue()`: Tested with known reference colors to ensure correct kWh/kWp values are returned
-- `isGrayScale()`: Verified that UI elements with neutral colors (legends, text) are properly filtered
+- `isTargetFeature()`: Verified that UI elements with neutral colors (legends, text) are properly filtered
 - `colourToValue()`: Confirmed that all non-grayscale pixels are processed and converted to kWh/kWp values
 - `nestedArraySelectionSort()`: Validated sorting accuracy by comparing results with manually sorted data
 
