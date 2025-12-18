@@ -39,24 +39,24 @@ Using the new skills in units 5 and 6, you will implement a computer vision algo
 - [ ] Algorithm design in English: outline the logic using English comments (pseudocode) before each major Python code block (3 pts)
 - [x] Code clarity: use descriptive variable names unless they are standard loop indices (e.g. x, y) (2 pts)
 - [x] Use of functions: structure the program using functions to organize it and reduce code duplication (2 pts)
-- [ ] Testing and robustness: include a section in your README describing testing done to ensure each of the tasks works as intended (1 pt)
-- [ ] Performance analysis: include a section in your README describing your code profiling: give an example of the report and discuss what parts of the program take the longest
-- [ ] Challenges faced: include a section in your README describing at least one challenge faced and how you overcame it (2 pts)
+- [x] Testing and robustness: include a section in your README describing testing done to ensure each of the tasks works as intended (1 pt)
+- [x] Performance analysis: include a section in your README describing your code profiling: give an example of the report and discuss what parts of the program take the longest
+- [x] Challenges faced: include a section in your README describing at least one challenge faced and how you overcame it (2 pts)
 
 ### Version Control
-- [ ] Source code is committed to repository on Github with at least 5 meaningful commits on different days prior to deadline (10 pts)
+- [x] Source code is committed to repository on Github with at least 5 meaningful commits on different days prior to deadline (10 pts)
 
 ## **QUALITY CRITERIA**
 ### Code Quality and Efficiency
 - [ ] Code quality: Clean, readable structure (2 pts)
 - [ ] Efficiency: Evidence of thinking about algorithmic complexity throughout the code (2 pts)
-- [ ] The program handles potential errors and edge cases effectively (2 pts)
-- [ ] Documentation polish: README is clear, concise, free of typos; also, code comments explain why decisions were made. (1 pt)
+- [x] The program handles potential errors and edge cases effectively (2 pts)
+- [x] Documentation polish: README is clear, concise, free of typos; also, code comments explain why decisions were made. (1 pt)
 
 ### Creativity and Originality
 - [ ] The chosen theme and visual feature are unique, interesting, and insightful (2 pts)
-- [ ] Feature detection uses a more advanced process, such as pre-processing the image, using multiple pixels, or using statistical approaches to detect features (4 points)
-- [ ] Captured feature involves a real-world use-case. References a real paper, report, or dataset supporting decisions for detecting feature (4 points)
+- [x] Feature detection uses a more advanced process, such as pre-processing the image, using multiple pixels, or using statistical approaches to detect features (4 points)
+- [x] Captured feature involves a real-world use-case. References a real paper, report, or dataset supporting decisions for detecting feature (4 points)
 
 ## **SUBMISSION REQUIREMENTS**
 
