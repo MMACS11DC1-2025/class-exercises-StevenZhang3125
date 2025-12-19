@@ -80,7 +80,7 @@ while True:
             orderText = "Highest to Lowest"                 # Update order text
         
         sortedArray = utils.nestedArraySelectionSort(imageData, 1, descending) # Sort based on average kWh
-        sortedArray = sortedArray[0:5]                                    # Splice top 5 results from data
+        sortedArray = sortedArray[0:5]                                         # Splice top 5 results from data
 
         # Display ranking results
         print(f"\nTop 5 Average kWh Rankings: ({orderText})")
@@ -104,7 +104,7 @@ while True:
             orderText = "Highest to Lowest"                 # Update order text
         
         sortedArray = utils.nestedArraySelectionSort(imageData, 2, descending) # Sort based on kWh consistency
-        sortedArray = sortedArray[0:5]                                    # Splice top 5 results from data
+        sortedArray = sortedArray[0:5]                                         # Splice top 5 results from data
 
         # Display ranking results
         print(f"\nTop 5 Consistency Rankings: ({orderText})")
@@ -139,7 +139,7 @@ while True:
             print("Invalid input; please enter a number.")
             continue
         
-        sortedArray = utils.nestedArraySelectionSort(imageData, 1, False)                   # Sort based on average kWh
+        sortedArray = utils.nestedArraySelectionSort(imageData, 1, False)            # Sort based on average kWh
         result = utils.nestedArrayBinarySearch(sortedArray, targetkWh, tolerance, 1) # Binary search for target kWh
         
         # If a result was found, display it
@@ -179,7 +179,7 @@ while True:
             print("Invalid input; please enter a number.")
             continue
         
-        sortedArray = utils.nestedArraySelectionSort(imageData, 2, False)                           # Sort based on consistency
+        sortedArray = utils.nestedArraySelectionSort(imageData, 2, False)                    # Sort based on consistency
         result = utils.nestedArrayBinarySearch(sortedArray, targetConsistency, tolerance, 2) # Binary search for target consistency
         
         # If a result was found, display it
@@ -200,7 +200,7 @@ while True:
             print("\nNo matching location found.")
 
     # Exit program/loop
-    if option == 5:
+    elif option == 5:
         break
 
     # Handle invalid option input

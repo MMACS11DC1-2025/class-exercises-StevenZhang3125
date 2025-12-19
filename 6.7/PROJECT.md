@@ -55,8 +55,8 @@ Using the new skills in units 5 and 6, you will implement a computer vision algo
 
 ### Creativity and Originality
 - [x] The chosen theme and visual feature are unique, interesting, and insightful (2 pts)
-- [ ] Feature detection uses a more advanced process, such as pre-processing the image, using multiple pixels, or using statistical approaches to detect features (4 points)
-- [ ] Captured feature involves a real-world use-case. References a real paper, report, or dataset supporting decisions for detecting feature (4 points)
+- [x] Feature detection uses a more advanced process, such as pre-processing the image, using multiple pixels, or using statistical approaches to detect features (4 points)
+- [x] Captured feature involves a real-world use-case. References a real paper, report, or dataset supporting decisions for detecting feature (4 points)
 
 ## **SUBMISSION REQUIREMENTS**
 

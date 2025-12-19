@@ -72,45 +72,66 @@ def isTargetFeature(colour):
 boxBlur logic breakdown
 1. Create a copy of the original image to store the blurred result (prevents reading already-modified pixels)
 2. Load pixel data for both the source image and the new target image
-3. Iterate through the image pixels, skipping the 1-pixel border to ensure every pixel has 8 neighbors
-4. For each pixel, examine the 3x3 grid of pixels surrounding it (x-1 to x+1, y-1 to y+1)
-5. Include only target-feature pixels (non-grayscale) when averaging to avoid mixing in UI elements
-6. Calculate the average RGB values of the included pixels; if none are included, keep the original pixel
+3. Iterate through all image pixels
+4. For each pixel, check if there are pixels to its left, right, up, down depending on its position
+5. Append the pixel's color tuple to an array if it's a target feature (non-grayscale)
+6. Calculate the average RGB values of the collected pixels; if none are collected, keep the original pixel
 7. Assign the new averaged RGB tuple to the corresponding pixel in the target image
 8. Return the processed image
 """
 
-# Apply a 3x3 box blur to smooth image noise without mixing in grayscale UI pixels
+# Apply a box blur to smooth image noise without mixing in grayscale UI pixels
 def boxBlur(file):
     blurredFile = file.copy()      # Create copy for output
     pixels = file.load()           # Read from original
     newPixels = blurredFile.load() # Write to copy
     w = file.width
     h = file.height
+    # Iterate through all pixels
+    for c in range(w):
+        for r in range(h):
+            colours = []
+            # Check current pixel
+            currentColor = pixels[c, r]
+            if isTargetFeature(currentColor):
+                colours.append(currentColor)
+            # Check left
+            if c > 0:
+                leftColor = pixels[c-1, r]
+                if isTargetFeature(leftColor):
+                    colours.append(leftColor)
+            # Check right
+            if c < w-1:
+                rightColor = pixels[c+1, r]
+                if isTargetFeature(rightColor):
+                    colours.append(rightColor)
+            # Check up
+            if r > 0:
+                upColor = pixels[c, r-1]
+                if isTargetFeature(upColor):
+                    colours.append(upColor)
+            # Check down
+            if r < h-1:
+                downColor = pixels[c, r+1]
+                if isTargetFeature(downColor):
+                    colours.append(downColor)
 
-    # Iterate through pixels (excluding border)
-    for x in range(1, w - 1):
-        for y in range(1, h - 1):
-            rTotal, gTotal, bTotal = 0, 0, 0
-            count = 0
-            # Iterate through 3x3 grid
-            for i in range(-1, 2):
-                for j in range(-1, 2):
-                    r, g, b = pixels[x + i, y + j]
-                    if isTargetFeature((r, g, b)):
-                        rTotal += r
-                        gTotal += g
-                        bTotal += b
-                        count += 1
-            
-            # If no target pixels in window, keep original to avoid pulling in UI greys
-            if count == 0:
-                newPixels[x, y] = pixels[x, y]
+            # Keep original pixel if target pixels aren't found
+            if len(colours) == 0:
+                newPixels[c, r] = pixels[c, r]
                 continue
-
-            # Calculate average and set new pixel based only on target pixels
-            newPixels[x, y] = (rTotal // count, gTotal // count, bTotal // count)
             
+            # Calculate average RGB values from surrounding colors
+            rTotal = 0
+            gTotal = 0
+            bTotal = 0
+            for i in range(len(colours)):
+                rTotal += colours[i][0]
+                gTotal += colours[i][1]
+                bTotal += colours[i][2]
+            
+            # Set new pixel based only on target pixels
+            newPixels[c, r] = (rTotal//len(colours), gTotal//len(colours), bTotal//len(colours))
     return blurredFile
 
 """
