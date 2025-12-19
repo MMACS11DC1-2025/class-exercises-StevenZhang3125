@@ -74,13 +74,13 @@ boxBlur logic breakdown
 2. Load pixel data for both the source image and the new target image
 3. Iterate through the image pixels, skipping the 1-pixel border to ensure every pixel has 8 neighbors
 4. For each pixel, examine the 3x3 grid of pixels surrounding it (x-1 to x+1, y-1 to y+1)
-5. Sum the Red, Green, and Blue components of all 9 pixels in the grid
-6. Calculate the average RGB values by dividing the sums by 9
+5. Include only target-feature pixels (non-grayscale) when averaging to avoid mixing in UI elements
+6. Calculate the average RGB values of the included pixels; if none are included, keep the original pixel
 7. Assign the new averaged RGB tuple to the corresponding pixel in the target image
 8. Return the processed image
 """
 
-# Apply a 3x3 box blur to smooth image noise
+# Apply a 3x3 box blur to smooth image noise without mixing in grayscale UI pixels
 def boxBlur(file):
     blurredFile = file.copy()      # Create copy for output
     pixels = file.load()           # Read from original
@@ -92,16 +92,24 @@ def boxBlur(file):
     for x in range(1, w - 1):
         for y in range(1, h - 1):
             rTotal, gTotal, bTotal = 0, 0, 0
+            count = 0
             # Iterate through 3x3 grid
             for i in range(-1, 2):
                 for j in range(-1, 2):
                     r, g, b = pixels[x + i, y + j]
-                    rTotal += r
-                    gTotal += g
-                    bTotal += b
+                    if isTargetFeature((r, g, b)):
+                        rTotal += r
+                        gTotal += g
+                        bTotal += b
+                        count += 1
             
-            # Calculate average and set new pixel
-            newPixels[x, y] = (rTotal // 9, gTotal // 9, bTotal // 9)
+            # If no target pixels in window, keep original to avoid pulling in UI greys
+            if count == 0:
+                newPixels[x, y] = pixels[x, y]
+                continue
+
+            # Calculate average and set new pixel based only on target pixels
+            newPixels[x, y] = (rTotal // count, gTotal // count, bTotal // count)
             
     return blurredFile
 
@@ -150,23 +158,27 @@ def getArrayConsistency(data):
 """
 nestedArraySelectionSort logic breakdown
 1. Iterate through each element in the nested array
-2. For each element, start it as the minimum and store its index
+2. For each element, start it as the target (min or max) and store its index
 3. Compare the current element with every other element in the array based on the specified reference index
-4. If a smaller element is found, update the minimum index to this new element's index
-5. After checking all elements, swap the current element with the smallest found element
+4. If a smaller (or larger, depending on order) element is found, update the target index to this new element's index
+5. After checking all elements, swap the current element with the target element
 6. Continue this process until the entire array is sorted based on the reference index
 7. Return the sorted nested array
 """
 
 # Preform selection sort on nested array based on a reference index
-def nestedArraySelectionSort(data, index):
+def nestedArraySelectionSort(data, index, descending):
     # Iterate through each element in the array
     for i in range(len(data)):              
-        minIndex = i 
+        targetIndex = i 
         for k in range(i+1, len(data)):                   # Iterate through every element for each element
-            if data[k][index] < data[minIndex][index]:    # Compare based on reference index
-                minIndex = k
-        data[i], data[minIndex] = data[minIndex], data[i] # Swap elements
+            if descending:
+                if data[k][index] > data[targetIndex][index]: # Compare based on reference index (High to Low)
+                    targetIndex = k
+            else:
+                if data[k][index] < data[targetIndex][index]: # Compare based on reference index (Low to High)
+                    targetIndex = k
+        data[i], data[targetIndex] = data[targetIndex], data[i] # Swap elements
     return data
 
 """

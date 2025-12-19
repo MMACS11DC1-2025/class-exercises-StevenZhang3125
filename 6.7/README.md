@@ -30,13 +30,19 @@ This color-based detection method is accurate because:
 - **Grayscale Filtering:** The program filters out UI elements (legends, borders, labels) by detecting and ignoring grayscale pixels, ensuring only actual data is analyzed
 - **Comprehensive Reference Range:** The 19-point color reference (600-2400 kWh/kWp in 100 kWh/kWp increments) provides sufficient granularity for accurate energy assessment
 
+### Scientific Basis & References
+The Global Solar Atlas uses a standardized color scale to represent Photovoltaic Power Potential (PVOUT), as documented in the World Bank's 'Global Photovoltaic Power Potential by Country' report (ESMAP, 2020). This report confirms that the map colors correspond to specific energy values. The program relies on this established relationship to accurately translate pixel colors into energy potential figures (kWh/kWp), ensuring the analysis is based on real-world data standards.
+
+**Reference:**
+> ESMAP. 2020. *Global Photovoltaic Power Potential by Country*. Washington, DC: World Bank. License: Creative Commons Attribution CC BY 3.0 IGO. Available at: https://globalsolaratlas.info/global-pv-potential-study
+
 ## Testing and Validation
 
 ### Unit Testing
 - `getClosestValue()`: Tested with known reference colors to ensure correct kWh/kWp values are returned
 - `isTargetFeature()`: Verified that UI elements with neutral colors (legends, text) are properly filtered
 - `colourToValue()`: Confirmed that all non-grayscale pixels are processed and converted to kWh/kWp values
-- `nestedArraySelectionSort()`: Validated sorting accuracy by comparing results with manually sorted data
+- `nestedArraySelectionSort()`: Validated sorting accuracy for both ascending and descending orders by comparing results with manually sorted data
 
 ### Integration Testing
 - Processed all 10 images and verified that:

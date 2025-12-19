@@ -73,11 +73,13 @@ while True:
 
     # Process ranking based on average kWh
     if option == 1:
-        sortedArray = utils.nestedArraySelectionSort(imageData, 1) # Sort based on average kWh
+        descending = False
         orderText = "Lowest to Highest"                     # Default order text
         if order == 2:                                      # Check user order preference
-            sortedArray = sortedArray[::-1]                               # Reverse order of data (Low to High -> High to Low)
+            descending = True
             orderText = "Highest to Lowest"                 # Update order text
+        
+        sortedArray = utils.nestedArraySelectionSort(imageData, 1, descending) # Sort based on average kWh
         sortedArray = sortedArray[0:5]                                    # Splice top 5 results from data
 
         # Display ranking results
@@ -95,11 +97,13 @@ while True:
 
     # Process ranking based on kWh consistency
     elif option == 2:
-        sortedArray = utils.nestedArraySelectionSort(imageData, 2) # Sort based on kWh consistency
+        descending = False
         orderText = "Lowest to Highest"                     # Default order text 
         if order == 2:                                      # Check user order preference
-            sortedArray = sortedArray[::-1]                               # Reverse order of data (Low to High -> High to Low)
+            descending = True
             orderText = "Highest to Lowest"                 # Update order text
+        
+        sortedArray = utils.nestedArraySelectionSort(imageData, 2, descending) # Sort based on kWh consistency
         sortedArray = sortedArray[0:5]                                    # Splice top 5 results from data
 
         # Display ranking results
@@ -135,7 +139,7 @@ while True:
             print("Invalid input; please enter a number.")
             continue
         
-        sortedArray = utils.nestedArraySelectionSort(imageData, 1)                   # Sort based on average kWh
+        sortedArray = utils.nestedArraySelectionSort(imageData, 1, False)                   # Sort based on average kWh
         result = utils.nestedArrayBinarySearch(sortedArray, targetkWh, tolerance, 1) # Binary search for target kWh
         
         # If a result was found, display it
@@ -175,7 +179,7 @@ while True:
             print("Invalid input; please enter a number.")
             continue
         
-        sortedArray = utils.nestedArraySelectionSort(imageData, 2)                           # Sort based on consistency
+        sortedArray = utils.nestedArraySelectionSort(imageData, 2, False)                           # Sort based on consistency
         result = utils.nestedArrayBinarySearch(sortedArray, targetConsistency, tolerance, 2) # Binary search for target consistency
         
         # If a result was found, display it
